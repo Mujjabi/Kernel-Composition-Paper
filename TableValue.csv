@@ -1,0 +1,31 @@
+Group,Trait,Ames_Means,Ames_Blups,Wisc_Blups
+Non-stiff stalk,Protein,12.06,12.10341837,12.63
+Popcorn,Protein,13.23,13.01777145,13.51
+Stiff stalk,Protein,11.92,11.97541569,11.8
+Sweet corn,Protein,12.93,12.84078109,14.47
+Tropical,Protein,12.64,12.62411466,13.64
+Unclassified,Protein,12.48,12.48083967,13.04
+Non-stiff stalk,Starch,63.1,63.06743759,72.03
+Popcorn,Starch,61.75,61.859294,71.79
+Stiff stalk,Starch,63.42,63.3653495,72.08
+Sweet corn,Starch,60.26,60.51083203,70.86
+Tropical,Starch,63,62.96709854,71.83
+Unclassified,Starch,62.56,62.56169866,71.85
+Non-stiff stalk,Oil,3.28,3.277441008,4.16
+Popcorn,Oil,2.43,2.477791814,4.5
+Stiff stalk,Oil,3.25,3.249195843,4.06
+Sweet corn,Oil,5.25,5.197911265,4.77
+Tropical,Oil,3.24,3.242153413,4.65
+Unclassified,Oil,3.52,3.521724761,4.35
+Non-stiff stalk,Ash,1.11,1.111790613,1.23
+Popcorn,Ash,0.95,0.960690916,1.28
+Stiff stalk,Ash,1.12,1.10801216,1.17
+Sweet corn,Ash,0.99,0.996113904,1.32
+Tropical,Ash,0.98,0.982408888,1.27
+Unclassified,Ash,1.11,1.107501516,1.24
+Non-stiff stalk,Fiber,1.28,1.277884748,1.98
+Popcorn,Fiber,0.78,0.789549827,2.28
+Stiff stalk,Fiber,1.34,1.336645345,1.95
+Sweet corn,Fiber,0.58,0.591267031,2.17
+Tropical,Fiber,0.95,0.954517034,2.02
+Unclassified,Fiber,1.24,1.237637962,2.02
