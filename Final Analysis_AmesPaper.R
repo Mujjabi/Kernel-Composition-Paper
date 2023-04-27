@@ -209,7 +209,7 @@ Starch <- ggscatter(WisAmesCombined, x = "Starch", y = "Star_W",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
           title = "Starch",
-          xlab = xlab = "Ames [%]", ylab = "WiDiv [%]")
+          xlab = "Ames [%]", ylab = "WiDiv [%]")
 
 Protein <- ggscatter(WisAmesCombined, x = "Protein", y = "Prot_W", 
                     add = "reg.line", conf.int = TRUE, 
@@ -223,7 +223,7 @@ Oil <- ggscatter(WisAmesCombined, x = "Oil", y = "Oil_W",
                     title = "Oil",
                  xlab = "Ames [%]", ylab = "WiDiv [%]")
 
-Fiber <- ggscatter(WisAmesCombined, x = "Fiber", y = "Fib_W", 
+Fiber <- ggscatter(WisAmesCombined, x = "Fib", y = "Fib_W", 
                     add = "reg.line", conf.int = TRUE, 
                     cor.coef = TRUE, cor.method = "pearson",
                     title = "Fiber",
@@ -239,5 +239,3 @@ Ash <- ggscatter(WisAmesCombined, x = "Ash", y = "Ash_W",
 library(gridExtra)
 grid.arrange(Starch, Protein, Oil, Fiber,Ash, nrow = 3)
 
-
-R.Version()
