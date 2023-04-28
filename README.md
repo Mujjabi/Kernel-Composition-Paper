@@ -255,47 +255,48 @@ write.csv (Corr3, "PearsonCorr.csv")
 ```
 The Generated file Corr3 shows the correlation between the trait values for each genotype. 
 
- ##### 7.3 Correlation Scatter Plots
+##### 7.3 Correlation Scatter Plots
 
-The obtained pearson correlations were plotted on scatterplots using the ggscatter function as shown below. 
+The obtained pearson correlations were plotted on scatter plots using the ggscatter function as shown below. 
 
 ```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
 library("ggpubr")
+
 Starch <- ggscatter(WisAmesCombined, x = "Starch", y = "Star_W", 
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
           title = "Starch",
-          xlab = "Ames [%]", ylab = "WiDiv [%]")
+          xlab = "Observed [%]", ylab = "Literature [%]")
 
 Protein <- ggscatter(WisAmesCombined, x = "Protein", y = "Prot_W", 
                     add = "reg.line", conf.int = TRUE, 
                     cor.coef = TRUE, cor.method = "pearson",
                     title = "Protein",
-                    xlab = "Ames [%]", ylab = "WiDiv [%]")
+                    xlab = "Observed [%]", ylab = "Literature  [%]")
 
 Oil <- ggscatter(WisAmesCombined, x = "Oil", y = "Oil_W", 
                     add = "reg.line", conf.int = TRUE, 
                     cor.coef = TRUE, cor.method = "pearson",
                     title = "Oil",
-                 xlab = "Ames [%]", ylab = "WiDiv [%]")
+                 xlab = "Observed [%]", ylab = "Literature  [%]")
 
 Fiber <- ggscatter(WisAmesCombined, x = "Fib", y = "Fib_W", 
                     add = "reg.line", conf.int = TRUE, 
                     cor.coef = TRUE, cor.method = "pearson",
                     title = "Fiber",
-                    xlab = "Ames [%]", ylab = "WiDiv [%]")
+                    xlab = "Observed [%]", ylab = "Literature  [%]")
                   
 
 Ash <- ggscatter(WisAmesCombined, x = "Ash", y = "Ash_W", 
                     add = "reg.line", conf.int = TRUE, 
                     cor.coef = TRUE, cor.method = "pearson",
                     title = "Ash",
-                    xlab = "Ames [%]", ylab = "WiDiv [%]")
+                    xlab = "Observed [%]", ylab = "Literature  [%]")
+
 
 library(gridExtra)
 grid.arrange(Starch, Protein, Oil, Fiber,Ash, nrow = 3)
 ```
-
 
 
 
