@@ -1,7 +1,7 @@
 
-# Title: Dataset and Phenotypic Analysis Workflow - Kernel Composition Paper"
-## Author: "Christopher Mujjabi"
-## Date: "2023-04-28"
+# Dataset and Phenotypic Analysis Workflow - Kernel Composition Paper"
+## Author: Christopher Mujjabi
+## Date: 2023-04-28
 
 ### Datasets Used in the Analysis  
 
