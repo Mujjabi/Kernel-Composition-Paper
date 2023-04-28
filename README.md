@@ -33,6 +33,8 @@ library(dplyr)
 library(Hmisc)
 library("ggpubr")
 library(gridExtra)
+library(xlsx)
+library(readr)
 ```
 #### 2. Uploading the dataset
 First, I uploaded the dataset we obtained from scanning a sub-set of 954 inbred lines in the Ames diversity panel.  This file is called "GrainQualityData_Amespanel.csv". Then I changed each column in the dataset to either "factor" if categorical or "numeric" if numeric variable. 
@@ -139,6 +141,40 @@ df<-df.residual(modelprot)
 MSerror<-deviance(modelprot)/df
 with(Compiled2,HSD.test(Protein,Group,df,MSerror, group=TRUE,console=TRUE,
                           main="Protein Composition for Different Maize Groups "))
+```
+#### 6. Estimating BLUPs for Each Trait 
+
+I used the lmer function to fit a mixed linear model, using Heterotic groups as random variables to be able to extract Best Linear Unbiased predictors (BLUPs)-adjusted trait means for each heterotic group. Blups were extracted using the "coef" function. The function calculates estimated variances between random-effects terms in a mixed-effects model 
+
+```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
+mod1 <- lmer(Protein ~ (1|Group), REML = TRUE, data= Compiled)
+mod2 <- lmer(Starch ~ (1|Group), REML = TRUE, data= Compiled)
+mod3 <- lmer(Oil ~ (1|Group), REML = TRUE, data= Compiled)
+mod4 <- lmer(Ash ~ (1|Group), REML = TRUE, data= Compiled)
+mod5 <- lmer(Fib ~ (1|Group), REML = TRUE, data= Compiled)
+mod6 <- lmer(Density ~ (1|Group), REML = TRUE, data= Compiled)
+
+varComp<-as.data.frame(VarCorr(mod1,comp="vcov")) 
+blupProt= coef(mod1)$Group
+
+varComp<-as.data.frame(VarCorr(mod3,comp="vcov"))
+blupOil = coef(mod3)$Group
+
+varComp<-as.data.frame(VarCorr(mod2,comp="vcov"))
+blupStr = coef(mod2)$Group
+
+varComp<-as.data.frame(VarCorr(mod5,comp="vcov"))
+blupfiber = coef(mod5)$Group
+
+varComp<-as.data.frame(VarCorr(mod4,comp="vcov"))
+blupash = coef(mod4)$Group
+
+varComp<-as.data.frame(VarCorr(mod6,comp="vcov"))
+blupdensity = coef(mod6)$Group
+
+Ames_Blups <- cbind(blupProt,blupStr,blupOil,blupfiber,blupdensity,blupash)
+
+write.csv(Ames_Blups, "Ames_Blups.csv")
 ```
 
 
