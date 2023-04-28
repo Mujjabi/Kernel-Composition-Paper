@@ -175,11 +175,12 @@ Ames_Blups <- cbind(blupProt,blupStr,blupOil,blupfiber,blupdensity,blupash)
 
 write.csv(Ames_Blups, "Ames_Blups.csv")
 ```
-The obtained BLUPs above were combined with the BLUPs reported in the Renk et al, 2021 paper (Table 2) and formed a new dataset called "TableValues". 
-dataset used in the next step
-The dataset has the Group, Trait, Ames_Blups for each trait and Wisc_Blups for each trait. 
-Group performance/rankig for a particular trait across the studies was evaluated using a spearman ranking test below. 
+The obtained BLUPs above were combined with the BLUPs reported in the Renk et al, 2021 paper (Table 2) and formed a new dataset called "TableValues". The columns in this dataset are: Heterotic Group, Trait, Ames_Blups and Wisc_Blups for each trait for each trait and was used in the next step to perform correlation analysis. 
 
+#### 7. Correlation Analysis
+
+##### Spearman Ranking Correlation 
+First, I conducted a spearman ranking correlation to compare how the heterotic groups performed in the two studies. Strong correlations would validate the data obtained from our unreplicated experiment. 
 
 ```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
 Data1  <- read.csv("TableValue.csv", header = TRUE)
@@ -190,6 +191,27 @@ Corr1 <- Data1%>%
   summarise(cor=cor(Ames_Blups,Wisc_Blups, method = "spearman"))
 
 write.csv(Corr1, "spearmanCorr.csv")
+```
+##### Pearson Correlations 
+
+In addition, we conducted a Pearson correlation between the kernel composition trait values obtained from the Renk et al, 2021 replicated experiment and values obtained from our unreplicated experiment, for the 275 common genotypes between the 2 studies. The raw data for the Renk et al, 2021 experiment was downloaded from the supplimentary tables. The common genotypes were identified, and the rest of the genotyopes were deleted from the dataset. This file was names as "Wis-Rawdata.csv". The dataset has 275 genotypes, tested in 5 environments with 2 replicates in each environment. The dataset was uploaded and trait means for each genotype were estimated in the code below. 
+
+```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
+Wis <- read.csv("Wis-Rawdata.csv", header = TRUE)  
+Wis$Accession <- as.factor(Wis$Accession)
+Wis$Genotype <- as.factor(Wis$Genotype)
+Wis$Group <- as.factor(Wis$Group)
+Wis$Starch <- as.numeric(Wis$Starch)
+Wis$Oil <- as.numeric(Wis$Oil)
+Wis$Prot <- as.numeric(Wis$Prot)
+Wis$Fiber <- as.numeric(Wis$Fiber)
+Wis$Ash <- as.numeric(Wis$Ash)
+
+library(dplyr)
+WisMeans <- Wis %>%
+  group_by(Accession) %>%
+  summarise(across(Prot_W:Star_W, mean)) 
+write.csv (WisMeans, "WisMeans.csv") 
 ```
 
 

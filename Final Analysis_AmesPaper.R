@@ -1,4 +1,4 @@
-#This is the final workflow for my part of the ames paper.
+#This is the final workflow for the phenotypic analysis of kernel compositional traits
 # I conducted an analysis of variance between heterotic groups since this wasnt possible between inbreds due to lack of reps
 #I used a simple linear model which assumes fixed factors, since we dont have random factors. Heterotic groups are  fixed groups thus considered fixed
 
@@ -69,23 +69,14 @@ anova(modelstr)
 anova(modeloil)
 anova(modelfiber)
 anova(modelash)
-
+anova(modeldensity)
 
 ## Pairwise Mean Comparisons for each trait. 
-library(agricolae)
-#This is Fisher LSD Test
-outprot <- LSD.test(modelprot,alpha = 0.05,"Group", p.adj="bonferroni") 
-outstr <- LSD.test(modelstr,alpha = 0.05,"Group",p.adj="bonferroni") 
-outoil <- LSD.test(modeloil,alpha = 0.05,"Group",p.adj="bonferroni") 
-outash <- LSD.test(modelash, alpha = 0.05,"Group",p.adj="bonferroni") 
-outdensity<- LSD.test(modeldensity,alpha = 0.05,"Group",p.adj="bonferroni") 
-outfiber <- LSD.test(modelfiber,alpha = 0.05,"Group",p.adj="bonferroni") 
-
-Compiled2 %>% count(Group)
-
 ## This is Tukeys HSD Test
+
+library(agricolae)
 out<-HSD.test(modelprot,"Group", group=TRUE)
-print(out$comparison)
+print(out)
 
 # Old version HSD.test()
 df<-df.residual(modelprot)
@@ -104,22 +95,16 @@ library(lme4)
 library(jtools)
 library(lmerTest)
 library(car)
+install.packages("xlsx")
+library(xlsx)
+library(readr)
+
 mod1 <- lmer(Protein ~ (1|Group), REML = TRUE, data= Compiled)
 mod2 <- lmer(Starch ~ (1|Group), REML = TRUE, data= Compiled)
 mod3 <- lmer(Oil ~ (1|Group), REML = TRUE, data= Compiled)
 mod4 <- lmer(Ash ~ (1|Group), REML = TRUE, data= Compiled)
 mod5 <- lmer(Fib ~ (1|Group), REML = TRUE, data= Compiled)
 mod6 <- lmer(Density ~ (1|Group), REML = TRUE, data= Compiled)
-
-
-library(lmerTest)
-library(emmeans)
-marginal_means <- emmeans(mod1 ~ Group)
-Tukey_test <- summary(glht(marginal_means, pairwise ~ group, adjust = "tukey"))
-
-
-
-
 
 
 ## extract blups from each model
@@ -142,12 +127,12 @@ varComp<-as.data.frame(VarCorr(mod6,comp="vcov"))
 blupdensity = coef(mod6)$Group
 
 Ames_Blups <- cbind(blupProt,blupStr,blupOil,blupfiber,blupdensity,blupash)
-install.packages("xlsx")
+
 
 write.csv(Ames_Blups, "Ames_Blups.csv")
 
 #These Blups were combined with the Hirsch et al, 2021 Blups from Table 2 to for "TableValues" dataset used in the next step
-#The dataset has the Group, Trait, Ames_Blups for each trait and Wisc_Blups for eact trait. 
+#The dataset has the Group, Trait, Ames_Blups for each trait and Wisc_Blups for each trait. 
 #Group performance/rankig for a particular trait across the studies was evaluated using a spearman ranking test below. 
 
 Data1  <- read.csv("TableValue.csv", header = TRUE)
