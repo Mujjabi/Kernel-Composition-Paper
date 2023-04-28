@@ -156,17 +156,17 @@ mod6 <- lmer(Density ~ (1|Group), REML = TRUE, data= Compiled)
 varComp<-as.data.frame(VarCorr(mod1,comp="vcov")) 
 blupProt= coef(mod1)$Group
 
-varComp<-as.data.frame(VarCorr(mod3,comp="vcov"))
-blupOil = coef(mod3)$Group
-
 varComp<-as.data.frame(VarCorr(mod2,comp="vcov"))
 blupStr = coef(mod2)$Group
 
-varComp<-as.data.frame(VarCorr(mod5,comp="vcov"))
-blupfiber = coef(mod5)$Group
+varComp<-as.data.frame(VarCorr(mod3,comp="vcov"))
+blupOil = coef(mod3)$Group
 
 varComp<-as.data.frame(VarCorr(mod4,comp="vcov"))
 blupash = coef(mod4)$Group
+
+varComp<-as.data.frame(VarCorr(mod5,comp="vcov"))
+blupfiber = coef(mod5)$Group
 
 varComp<-as.data.frame(VarCorr(mod6,comp="vcov"))
 blupdensity = coef(mod6)$Group
@@ -174,6 +174,22 @@ blupdensity = coef(mod6)$Group
 Ames_Blups <- cbind(blupProt,blupStr,blupOil,blupfiber,blupdensity,blupash)
 
 write.csv(Ames_Blups, "Ames_Blups.csv")
+```
+The obtained BLUPs above were combined with the BLUPs reported in the Renk et al, 2021 paper (Table 2) and formed a new dataset called "TableValues". 
+dataset used in the next step
+The dataset has the Group, Trait, Ames_Blups for each trait and Wisc_Blups for each trait. 
+Group performance/rankig for a particular trait across the studies was evaluated using a spearman ranking test below. 
+
+
+```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
+Data1  <- read.csv("TableValue.csv", header = TRUE)
+
+library(dplyr) 
+Corr1 <- Data1%>% 
+  group_by (Trait) %>% 
+  summarise(cor=cor(Ames_Blups,Wisc_Blups, method = "spearman"))
+
+write.csv(Corr1, "spearmanCorr.csv")
 ```
 
 
