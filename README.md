@@ -1,4 +1,3 @@
-
 # Dataset and Phenotypic Analysis Workflow - Kernel Composition Paper"
 ## Author: Christopher Mujjabi
 ## Date: 2023-04-28
@@ -176,6 +175,7 @@ Ames_Blups <- cbind(blupProt,blupStr,blupOil,blupfiber,blupdensity,blupash)
 
 write.csv(Ames_Blups, "Ames_Blups.csv")
 ```
+
 
 
 
