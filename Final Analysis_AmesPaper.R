@@ -128,8 +128,18 @@ blupdensity = coef(mod6)$Group
 
 Ames_Blups <- cbind(blupProt,blupStr,blupOil,blupfiber,blupdensity,blupash)
 
-
 write.csv(Ames_Blups, "Ames_Blups.csv")
+
+
+# Test for normality Assumptioms
+# qq plot
+#par(mfrow=c(2,3))
+qqPlot(residuals(mod1), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Starch Content") 
+qqPlot(residuals(mod2), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Protein Content", id = FALSE) 
+qqPlot(residuals(mod3), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Oil Content", id = FALSE) 
+qqPlot(residuals(mod4), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Ash Content", id = FALSE) 
+qqPlot(residuals(mod5), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Fiber Content", id = FALSE) 
+qqPlot(residuals(mod6), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Kernel Density", id = FALSE) 
 
 #These Blups were combined with the Hirsch et al, 2021 Blups from Table 2 to for "TableValues" dataset used in the next step
 #The dataset has the Group, Trait, Ames_Blups for each trait and Wisc_Blups for each trait. 

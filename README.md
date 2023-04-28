@@ -177,6 +177,23 @@ write.csv(Ames_Blups, "Ames_Blups.csv")
 ```
 The obtained BLUPs above were combined with the BLUPs reported in the Renk et al, 2021 paper (Table 2) and formed a new dataset called "TableValues". The columns in this dataset are: Heterotic Group, Trait, Ames_Blups and Wisc_Blups for each trait for each trait and was used in the next step to perform correlation analysis. 
 
+##### 6.1 Test for normality Assumptioms
+I used the qq-plots to test for any violations of the model assumptions (independence of residuals, residual normality, and homoscedastic variance of residuals) using the line of code below.
+
+```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
+par(mfrow=c(2,3)
+
+qqPlot(residuals(mod1), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Starch Content")
+
+qqPlot(residuals(mod2), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Protein Content") 
+
+qqPlot(residuals(mod3), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Oil Content") 
+
+qqPlot(residuals(mod4), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Ash Content") 
+
+qqPlot(residuals(mod5), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Fiber Content") 
+qqPlot(residuals(mod6), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Kernel Density") 
+```
 #### 7. Correlation Analysis
 
 ##### 7.1 Spearman Ranking Correlation 
@@ -238,7 +255,7 @@ write.csv (Corr3, "PearsonCorr.csv")
 ```
 The Generated file Corr3 shows the correlation between the trait values for each genotype. 
 
- ##### 7.3 Plotting Correlations
+ ##### 7.3 Correlation Scatter Plots
 
 The obtained pearson correlations were plotted on scatterplots using the ggscatter function as shown below. 
 
