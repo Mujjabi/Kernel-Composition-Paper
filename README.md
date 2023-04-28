@@ -179,7 +179,7 @@ The obtained BLUPs above were combined with the BLUPs reported in the Renk et al
 
 #### 7. Correlation Analysis
 
-##### Spearman Ranking Correlation 
+##### 7.1 Spearman Ranking Correlation 
 First, I conducted a spearman ranking correlation to compare how the heterotic groups performed in the two studies. Strong correlations would validate the data obtained from our unreplicated experiment. 
 
 ```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
@@ -192,7 +192,7 @@ Corr1 <- Data1%>%
 
 write.csv(Corr1, "spearmanCorr.csv")
 ```
-##### Pearson Correlations 
+##### 7.2 Pearson Correlations 
 
 In addition, we conducted a Pearson correlation between the kernel composition trait values obtained from the Renk et al, 2021 replicated experiment and values obtained from our unreplicated experiment, for the 275 common genotypes between the 2 studies. The raw data for the Renk et al, 2021 experiment was downloaded from the supplimentary tables. The common genotypes were identified, and the rest of the genotyopes were deleted from the dataset. This file was names as "Wis-Rawdata.csv". The dataset has 275 genotypes, tested in 5 environments with 2 replicates in each environment. The dataset was uploaded and trait means for each genotype were estimated in the code below. 
 
@@ -213,7 +213,71 @@ WisMeans <- Wis %>%
   summarise(across(Prot_W:Star_W, mean)) 
 write.csv (WisMeans, "WisMeans.csv") 
 ```
+The estimated trait means from the Renk et al, 2021 study were Combined with values obtained from our unreplicated experiment using the "merge" function, to form a single dataset called "WisAmesCombined" as showed in the code below.  
+```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
+WisAmesCombined <- merge(Compiled, WisMeans, by = 'Accession') #merge function joins the 2 datasets by the common accession 
+write.csv (WisAmesCombined, "Combined2.csv") 
+```
+Using the generated dataset (WisAmesCombined),a Pearson Correlation between our observed trait values from an unreplicated experiment and the Renk et al, 2021 trait meav values from a replicated experiment, for the 275 common genotypes, was conducted using the code below. 
 
+```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
+library(Hmisc) 
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+  )}
+res3<-rcorr(as.matrix(WisAmesCombined[,4:14]),type = "pearson")
+round(res3$r, 2)
+round(res3$P, 2)
+Corr3 <- flattenCorrMatrix(res3$r, res3$P)
+write.csv (Corr3, "PearsonCorr.csv")
+```
+The Generated file Corr3 shows the correlation between the trait values for each genotype. 
+
+ ##### 7.3 Plotting Correlations
+
+The obtained pearson correlations were plotted on scatterplots using the ggscatter function as shown below. 
+
+```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
+library("ggpubr")
+Starch <- ggscatter(WisAmesCombined, x = "Starch", y = "Star_W", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          title = "Starch",
+          xlab = "Ames [%]", ylab = "WiDiv [%]")
+
+Protein <- ggscatter(WisAmesCombined, x = "Protein", y = "Prot_W", 
+                    add = "reg.line", conf.int = TRUE, 
+                    cor.coef = TRUE, cor.method = "pearson",
+                    title = "Protein",
+                    xlab = "Ames [%]", ylab = "WiDiv [%]")
+
+Oil <- ggscatter(WisAmesCombined, x = "Oil", y = "Oil_W", 
+                    add = "reg.line", conf.int = TRUE, 
+                    cor.coef = TRUE, cor.method = "pearson",
+                    title = "Oil",
+                 xlab = "Ames [%]", ylab = "WiDiv [%]")
+
+Fiber <- ggscatter(WisAmesCombined, x = "Fib", y = "Fib_W", 
+                    add = "reg.line", conf.int = TRUE, 
+                    cor.coef = TRUE, cor.method = "pearson",
+                    title = "Fiber",
+                    xlab = "Ames [%]", ylab = "WiDiv [%]")
+                  
+
+Ash <- ggscatter(WisAmesCombined, x = "Ash", y = "Ash_W", 
+                    add = "reg.line", conf.int = TRUE, 
+                    cor.coef = TRUE, cor.method = "pearson",
+                    title = "Ash",
+                    xlab = "Ames [%]", ylab = "WiDiv [%]")
+
+library(gridExtra)
+grid.arrange(Starch, Protein, Oil, Fiber,Ash, nrow = 3)
+```
 
 
 
