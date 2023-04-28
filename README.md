@@ -22,22 +22,79 @@ Contains the R Code used to conduct the phenotypic analysis and comparison of da
 #### R Code and Workflow Explained
 This is the final workflow for the phenotypic analysis of kernel compositional traits.
 
-###### R Packages and Libraries Used
+##### R Packages and Libraries Used
 Here are the packages and libraries used in the analysis. 
 
 ```{r}
-library(sf)
+library(agricolae)
+library(lme4)
+library(jtools)
+library(lmerTest)
+library(car)
 library(dplyr)
-library(ggplot2)
-library(tmap)
+library(Hmisc)
+library("ggpubr")
+library(gridExtra)
 ```
+##### Uploadin the dataset
+First, I uploaded the dataset we obtained from scanning a sub-set of 954 inbred lines in the Ames diversity panel.  This file is called "GrainQualityData_Amespanel.csv". Then I changed each column in the dataset to either "factor" if categorical or "numeric" if numeric variable. 
 
+```{r}
+Compiled <- read.csv("GrainQualityData_AmesPanel.csv", header = TRUE)
 
+Compiled$Accession <- as.factor(Compiled$Accession)
+Compiled$Origin <- as.factor(Compiled$Origin)
+Compiled$Group <- as.factor(Compiled$Group)
+Compiled$Starch <- as.numeric(Compiled$Starch)
+Compiled$Oil <- as.numeric(Compiled$Oil)
+Compiled$Protein <- as.numeric(Compiled$Protein)
+Compiled$Fiber <- as.numeric(Compiled$Fiber)
+Compiled$Density <- as.numeric(Compiled$Density)
+Compiled$Ash <- as.numeric(Compiled$Ash)
+```
+##### Data Cleaning
 
+Before conducting any statistical procedures, I first cleaned the data to detect and remove outliers and any data points that seemed off. First, I plotted boxplots to see the distribution of each trait and detect any outliers within each trait. 
+```{r}
+boxplot(Compiled[4:9], plot=TRUE)$out
+```
+Then, I used the interquartile range rule (IQR method) to identify and eliminate outliers for each trait using the code below. 
 
+```{r}
+outliers <- function(x) {
+  
+  Q1 <- quantile(x, probs=.25) 
+  Q3 <- quantile(x, probs=.75) 
+  iqr = Q3-Q1           
+  
+  upper_limit = Q3 + (iqr*1.5) 
+  lower_limit = Q1 - (iqr*1.5)  
+  
+  x > upper_limit | x < lower_limit  
+}
 
+remove_outliers <- function(Compiled, cols = names()) {  
+  for (col in cols) {
+    Compiled <- Compiled[!outliers(Compiled[[col]]),] 
+  }
+  Compiled
+}
 
+Compiled2 <- remove_outliers(Compiled, c(4:9))
 
+outliers <- boxplot(Compiled[4:9], plot=TRUE)$out  
+x<-Compiled
+Compiled <- x[-which(x$Starch %in% outliers),] 
+Compiled <- Compiled[-which(Compiled$Protein %in% outliers),]
+Compiled <- Compiled[-which(Compiled$Oil %in% outliers),]
+Compiled <- Compiled[-which(Compiled$Fib %in% outliers),]
+Compiled <- Compiled[-which(Compiled$Ash %in% outliers),]
+Compiled <- Compiled[-which(Compiled$Density %in% outliers),]
+```
+Here is a new box plot showing no outliers within each kernel composition trait. 
+```{r}
+boxplot(Compiled2[4:9], plot=TRUE)$out 
+```
 
 
 
