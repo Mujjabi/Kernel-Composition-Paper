@@ -192,6 +192,7 @@ qqPlot(residuals(mod3), pch=19, col="dark blue", col.lines="red", xlab="Predicte
 qqPlot(residuals(mod4), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Ash Content") 
 
 qqPlot(residuals(mod5), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Fiber Content") 
+
 qqPlot(residuals(mod6), pch=19, col="dark blue", col.lines="red", xlab="Predicted quantiles", ylab="Observed quantiles", main = "Kernel Density") 
 ```
 #### 7. Correlation Analysis
