@@ -53,7 +53,7 @@ Compiled <- Compiled[-which(Compiled$Fib %in% outliers),]
 Compiled <- Compiled[-which(Compiled$Ash %in% outliers),]
 Compiled <- Compiled[-which(Compiled$Density %in% outliers),]
 
-boxplot(Compiled2[4:9], plot=TRUE)$out 
+boxplot(Compiled2[4:9], col=c("red", "yellow", "green","#999999", "#E69F00", "#56B4E9"), plot=TRUE)$out 
 
 ### Only model with Group can be used. We have reps within groups. 
 
