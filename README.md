@@ -5,7 +5,7 @@
 ### Datasets Used in the Analysis  
 
 #### File "GrainQualityData_AmesPanel.csv" : 
-Contains our raw data obtained from the NIR analysis of the inbred lines in the Ames diversity panel 
+Contains our raw data obtained from the NIR analysis of the inbred lines in the Ames diversity (NCRPIS) panel.
 
 #### File "Wis-Rawdata.csv": 
 Contains part of the raw NIR data from Renk 2021 supplimental tables, for a set of 275 common genotypes between Renk 2021 study and our study. This dataset contains the 275 genotypes tested in 5 environments with 2 replicatons per environment.
@@ -231,7 +231,8 @@ WisMeans <- Wis %>%
   summarise(across(Prot_W:Star_W, mean)) 
 write.csv (WisMeans, "WisMeans.csv") 
 ```
-The estimated trait means from the Renk et al, 2021 study were Combined with values obtained from our unreplicated experiment using the "merge" function, to form a single dataset called "WisAmesCombined" as showed in the code below.  
+The estimated trait means from the Renk et al, 2021 study were Combined with values obtained from our unreplicated experiment using the "merge" function, to form a single dataset called "WisAmesCombined" as showed in the code below.
+
 ```{r setup, include=FALSE, echo = TRUE, warning = F, message = F}
 WisAmesCombined <- merge(Compiled, WisMeans, by = 'Accession') #merge function joins the 2 datasets by the common accession 
 write.csv (WisAmesCombined, "Combined2.csv") 
