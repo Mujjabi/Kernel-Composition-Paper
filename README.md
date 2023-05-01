@@ -92,7 +92,7 @@ Compiled <- Compiled[-which(Compiled$Density %in% outliers),]
 ```
 A clean dataset without outliers was created and named "Compiled2". Here is a new box plot showing no outliers within each kernel composition trait. 
 ```{r}
-boxplot(Compiled2[4:9], plot=TRUE)$out 
+boxplot(Compiled2[4:9], col=c("red", "yellow", "green","#999999", "#E69F00", "#56B4E9"), plot=TRUE)$out 
 ```
 #### 4. Analysis Of Variance (ANOVA)
 First, I conducted an analysis of variance (ANOVA) between heterotic groups since this wasnt possible between genotypes due to lack of replications in our experiment.I used a simple linear model which assumes fixed factors, since we dont have random factors. Heterotic groups are  fixed groups thus considered fixed factors in the mode. 
