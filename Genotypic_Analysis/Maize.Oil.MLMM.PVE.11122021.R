@@ -274,7 +274,7 @@ Loci.Associatns <-rbind(GWAS.loci, vGWAS.loci)
 
 
 
-
+##This might be it
 
 
 
